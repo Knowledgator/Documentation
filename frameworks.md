@@ -10,7 +10,7 @@
 
 
 ## Usage
-A simple example of how to run the model.
+Quickstart - A simple example of how to run the model.
 
 ### Pipelines
 #### Pipeline 1
