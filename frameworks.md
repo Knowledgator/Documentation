@@ -1,17 +1,31 @@
 # Architecture Name
 
+- [Intro](#intro)
+- [Quickstart](#quickstart)
+- [Installation](#installation)
+
 - [Usage](#usage)
+- [Pretrained Models](#pretrained-models)
+- [Prepared Datasets](#prepared-datasets)
 - [Components & Configs](#components--configs)
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
-- [Pretrained Models](#pretrained-models)
+- [Inference](#inference)
+
+
+
+## Intro
+Architecture features, etc.
+
+
+
+## Quickstart
+Basic examples of how to run the architecture with minimal setup.
 
 
 
 
 ## Usage
-Quickstart - A simple example of how to run the model.
-
 ### Pipelines
 #### Pipeline 1
 Explain pipeline 1 with examples.
@@ -22,6 +36,22 @@ Explain pipeline 1 with examples.
 An example of how to run the model for a specific task.
 ### ...
 ### Other Specific Task
+
+
+
+
+## Pretrained Models
+Link to pretrained models page.
+
+
+
+
+
+## Prepared Datasets
+Link to prepared datasets page.
+
+
+
 
 ## Components & Configs
 A quick overview of the architecture, pictures, etc.
@@ -43,7 +73,6 @@ Explain specific pooling strategies.
 
 ### ...
 ### Other Components
-
 
 
 
@@ -85,5 +114,14 @@ A simple example of how to train the model with RL Trainer.
 
 
 
-## Pretrained Models
-Link to pretrained models page.
+## Inference
+
+### C++ Inference
+Show how to run c++ inference.
+
+### Recommendations
+Provide recommendations on inference.
+
+### ...
+
+### Other inference feature
