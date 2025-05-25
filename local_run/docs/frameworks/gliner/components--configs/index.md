@@ -235,6 +235,91 @@ config = GLiNERConfig.from_pretrained("knowledgator/gliner-multitask-large-v0.5"
 model = GLiNER(config)
 ```
 
+## TrainingArguments <sup><a href="https://github.com/urchade/GLiNER/blob/efbfa38211136657895372d33d4ee2fe11b6f11b/gliner/training/trainer.py#L23" target="_blank" rel="noopener noreferrer">[source]</a></sup>
+
+Custom extension of `transformers.TrainingArguments` with additional parameters for span-based models, focal loss control, and parameter-specific optimization.
+
+---
+
+### Parameters
+
+---
+
+#### `cache_dir`  
+`str`, *optional*  
+Directory to store cache files.
+
+---
+
+#### `optim`  
+`str`, *optional*, defaults to `"adamw_torch"`  
+Optimizer name used during training.
+
+---
+
+#### `others_lr`  
+`float`, *optional*  
+Overrides learning rate for non-encoder parameters (e.g. label encoder, `token_rep_layer`). Used to create separate optimizer groups in `create_optimizer`.
+
+---
+
+#### `others_weight_decay`  
+`float`, *optional*, defaults to `0.0`  
+Weight decay used for non-encoder parameters. Only applied if `others_lr` is specified.
+
+---
+
+#### `focal_loss_alpha`  
+`float`, *optional*, defaults to `-1`  
+Alpha for focal loss. If ≥ 0, focal loss is activated.
+
+Focal loss formula:  
+FL(pₜ) = -α × (1 - pₜ)^γ × log(pₜ)
+
+---
+
+#### `focal_loss_gamma`  
+`float`, *optional*, defaults to `0`  
+Gamma for focal loss. Amplifies effect of hard examples.
+
+---
+
+#### `label_smoothing`  
+`float`, *optional*, defaults to `0.0`  
+Smoothing factor ε for regularizing classification targets.
+
+Smoothed label formula:  
+yᵢ_smooth = (1 - ε) × yᵢ + ε / N  
+Where:  
+- ε is the label smoothing factor  
+- N is the number of classes
+
+---
+
+#### `loss_reduction`  
+`str`, *optional*, defaults to `"sum"`  
+Specifies how loss is aggregated.  
+Choices: `"sum"`, `"mean"`
+
+---
+
+#### `negatives`  
+`float`, *optional*, defaults to `1.0`  
+Ratio of negative to positive spans during training. Controls sampling balance.
+
+---
+
+#### `masking`  
+`str`, *optional*, defaults to `"global"`  
+Controls masking strategy for spans.  
+Choices:  
+- `"global"` — fixed mask  
+- `"softmax"` — attention-based masking  
+- `"none"` — no masking
+
+---
+
+
 ## Span Representation Layers
 
 GLiNER supports multiple span representation strategies that define how text spans (e.g., entity candidates) are encoded using the contextualized token embeddings from the encoder. These are selected via the [`span_mode`](#span_mode-source) parameter in `GLiNERConfig`.
@@ -315,5 +400,5 @@ Applies a shared convolutional kernel with increasing receptive fields. Paramete
 
 ---
 
-Each representation module returns a tensor of shape `[B, L, max_width, D]` and can be used interchangeably via the `SpanRepLayer` interface.
+Each representation module returns a tensor of shape `[B, L, max_width, D]` and can be initiated interchangeably via the `SpanRepLayer` interface.
 
