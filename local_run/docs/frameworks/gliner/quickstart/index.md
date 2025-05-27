@@ -5,7 +5,7 @@ Welcome to the Gliner Framework Quickstart Guide! This document will help you ge
 
 ## Installation
 
-To install GLsiNER, run the following command:
+To install GLiNER, run the following command:
 
 ```bash
 pip install gliner

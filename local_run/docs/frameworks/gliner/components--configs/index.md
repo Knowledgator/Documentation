@@ -320,6 +320,276 @@ Choices:
 ---
 
 
+## Training Configuration <sup><a href="https://github.com/urchade/GLiNER/tree/main/configs" target="_blank" rel="noopener noreferrer">[source]</a></sup> {#training-configuration}
+
+Custom `config.yaml` used to control model initialization, architecture, and training behavior.
+
+---
+
+### Parameters
+
+---
+
+#### `model_name`  
+`str`, *required*  
+Base encoder model identifier from Hugging Face Hub. 
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+Example: `"microsoft/deberta-v3-small"`
+
+---
+
+#### `labels_encoder`  
+`str`, *optional*  
+Model used to encode label descriptions.
+Base encoder model identifier from Hugging Face Hub. 
+:::danger Note
+If `"prev_path"` is not `null`, and the model is bi-encoder (`"labels_encoder"` is not `null`), will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `name`  
+`str`, *optional*  
+Optional display name for tracking or logging.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `max_width`  
+`int`, *optional*, defaults to `12`  
+Maximum span width (in tokens) considered during candidate generation.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `hidden_size`  
+`int`, *optional*  
+Dimensionality of hidden layers and span projections. Should match the encoder's output.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `dropout`  
+`float`, *optional*, defaults to `0.4`  
+Dropout rate applied to internal projection layers.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `fine_tune`  
+`bool`, *optional*, defaults to `true`  
+Whether to fine-tune encoder weights during training.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `subtoken_pooling`  
+`str`, *optional*, defaults to `"first"`  
+Pooling strategy for subword embeddings.  
+Choices: `"first"`, `"mean"`, `"last"`
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `fuse_layers`  
+`bool`, *optional*, defaults to `false`  
+Whether to use additional attention fusion layers after span-label interaction.
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `post_fusion_schema`  
+`str`, *optional*, defaults to `""`  
+Schema string for defining multi-step span-label fusion (e.g., `"l2l-l2t-t2t"`).
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `span_mode`  
+`str`, *optional*, defaults to `"markerV0"`  
+Method for representing spans. See [Span Representation Layers](#span-representation-layers).
+:::danger Note
+If `"prev_path"` is not `null`, will be implicitly inherited from the model at `"prev_path"` model.
+:::
+
+---
+
+#### `num_steps`  
+`int`, *required*  
+Total number of training steps.
+
+---
+
+#### `train_batch_size`  
+`int`, *required*  
+Training batch size per step.
+
+---
+
+#### `eval_every`  
+`int`, *optional*  
+Evaluate the model every N steps.
+
+---
+
+#### `warmup_ratio`  
+`float`, *optional*  
+Fraction of total steps used for LR warm-up.
+
+---
+
+#### `scheduler_type`  
+`str`, *optional*, defaults to `"cosine"`  
+Learning rate scheduler to use.
+
+---
+
+#### `loss_alpha`  
+`float`, *optional*  
+Alpha parameter for focal loss. If ≥ 0, focal loss is applied.
+
+---
+
+#### `loss_gamma`  
+`float`, *optional*  
+Gamma parameter for focal loss.
+
+---
+
+#### `label_smoothing`  
+`float`, *optional*  
+Label smoothing coefficient.
+
+---
+
+#### `loss_reduction`  
+`str`, *optional*, defaults to `"sum"`  
+Aggregation method for loss.  
+Choices: `"sum"`, `"mean"`
+
+---
+
+#### `lr_encoder`  
+`float`, *required*  
+Learning rate for encoder parameters.
+
+---
+
+#### `lr_others`  
+`float`, *required*  
+Learning rate for non-encoder parameters (e.g., span layers, label encoder).
+
+---
+
+#### `weight_decay_encoder`  
+`float`, *optional*  
+Weight decay for encoder parameters.
+
+---
+
+#### `weight_decay_other`  
+`float`, *optional*  
+Weight decay for non-encoder parameters.
+
+---
+
+#### `max_grad_norm`  
+`float`, *optional*  
+Maximum norm for gradient clipping.
+
+---
+
+#### `root_dir`  
+`str`, *required*  
+Root directory for logs and checkpoints.
+
+---
+
+#### `train_data`  
+`str`, *required*  
+Path to training data JSON file.
+
+---
+
+#### `val_data_dir`  
+`str`, *optional*  
+Path or identifier for validation data.
+
+---
+
+#### `prev_path`  
+`str` or `null`, *optional*  
+Path to pretrained model checkpoint. Set to `"none"` or `null` if not used.
+
+---
+
+#### `save_total_limit`  
+`int`, *optional*  
+Maximum number of checkpoints to keep.
+
+---
+
+#### `size_sup`  
+`int`, *optional*, defaults to `-1`  
+Max number of supervised examples to use. `-1` means all.
+
+---
+
+#### `max_types`  
+`int`, *optional*, defaults to `25`  
+Max number of types (labels) allowed during training.
+
+---
+
+#### `shuffle_types`  
+`bool`, *optional*, defaults to `true`  
+Randomly shuffle label types during training.
+
+---
+
+#### `random_drop`  
+`bool`, *optional*, defaults to `true`  
+Whether to randomly drop entities during training (for robustness).
+
+---
+
+#### `max_neg_type_ratio`  
+`float`, *optional*, defaults to `1.0`  
+Controls the ratio of negative to positive entity types.
+
+---
+
+#### `max_len`  
+`int`, *optional*, defaults to `386`  
+Maximum sequence length passed to the encoder.
+
+---
+
+#### `freeze_token_rep`  
+`bool`, *optional*, defaults to `false`  
+If `true`, freezes token-level span representation layers.
+
+---
+
+
 ## Span Representation Layers
 
 GLiNER supports multiple span representation strategies that define how text spans (e.g., entity candidates) are encoded using the contextualized token embeddings from the encoder. These are selected via the [`span_mode`](#span_mode-source) parameter in `GLiNERConfig`.
