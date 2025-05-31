@@ -20,7 +20,7 @@ GLiNER models require training data in a structured JSON format as shown below:
 
 ---
 
-## Quick Start Guide
+## Quickstart
 
 Transform your raw data into GLiNER-ready format with this streamlined approach:
 

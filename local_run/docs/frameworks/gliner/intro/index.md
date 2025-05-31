@@ -157,4 +157,4 @@ The key intuition behind focal loss is to mitigate class imbalance which is high
 - The Intro section is based on the [Shahrukh Khan](https://www.linkedin.com/in/shahrukhx01/) article [Illustrated GLINER](https://medium.com/@shahrukhx01/illustrated-gliner-e6971e4c8c52) and placed into documentation with consent of the author.
 - [Urchade Zaratiana, Nadi Tomeh, Pierre Holat, and Thierry Charnois. 2023. Gliner: Generalist model for named entity recognition using bidirectional transformer](https://arxiv.org/abs/2311.08526)
 - [Ihor Stepanov, and Mykhailo Shtopko. 2024. GLINER MULTI-TASK: GENERALIST LIGHTWEIGHT MODEL FOR VARIOUS INFORMATION EXTRACTION TASKS](https://arxiv.org/abs/2311.08526)
--[Meet the new zero-shot NER architecture | by Knowledgator Engineering | Aug, 2024 | Medium](https://blog.knowledgator.com/meet-the-new-zero-shot-ner-architecture-30ffc2cb1ee0)
+- [Meet the new zero-shot NER architecture | by Knowledgator Engineering | Aug, 2024 | Medium](https://blog.knowledgator.com/meet-the-new-zero-shot-ner-architecture-30ffc2cb1ee0)
