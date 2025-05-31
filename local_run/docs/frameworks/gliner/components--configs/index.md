@@ -74,9 +74,9 @@ Defines the strategy for constructing span representations from encoder outputs.
 
 **Available options:**
 
-- `"markerV0"` — Projects start and end token representations with MLPs and concatenates them. Lightweight and default.
+- `"markerV0"` — Projects the start and end token representations with MLPs, concatenates them, and then applies a final projection. Lightweight and default.
 - `"marker"` — Similar to `markerV0` but with deeper two-layer projections; better for complex tasks.
-- `"query"` — Uses learned per-span-width query vectors and dot product interaction.
+- `"query"` — Uses learned per-span-width query vectors and dot-product interaction.
 - `"mlp"` — Applies a feedforward MLP and reshapes output into span format; fast but position-agnostic.
 - `"cat"` — Concatenates token features with learned span width embeddings before projection.
 - `"conv_conv"` — Uses multiple 1D convolutions with increasing kernel sizes; captures internal structure.
@@ -106,7 +106,7 @@ Each token in the schema defines one of the following attention types:
 - `"l2t"` — a single step where labels attend to span tokens
 - `""` — disables fusion entirely (no interaction is applied)
 
-The number and order of operations affects both performance and computational cost.
+The number and order of operations affect both performance and computational cost.
 
 :::tip
 The number of fusion layers (`num_post_fusion_layers`) controls how many times the entire schema is repeated.
@@ -247,7 +247,7 @@ Custom extension of `transformers.TrainingArguments` with additional parameters 
 
 #### `cache_dir`  
 `str`, *optional*  
-Directory to store cache files.
+Directory to store cache files. If specified, the model and tokenizer would be loaded form local `cache_dir`.
 
 ---
 

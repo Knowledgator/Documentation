@@ -41,7 +41,7 @@ Welcome to the Gliner Framework Quickstart Guide! This document will help you ge
    model = GLiNER.from_pretrained(model_id)
    answerer = GLiNERQuestionAnswerer(model=model)
    text = "SpaceX successfully launched a new rocket into orbit."
-   question = 'Which company launched a new rocker?'
+   question = 'Which company launched a new rocket?'
    predictions = answerer(text, questions=question)
    print(predictions)
    ```
@@ -119,7 +119,7 @@ Welcome to the Gliner Framework Quickstart Guide! This document will help you ge
     ```
    </details>
 
-### [More detailes on usage](frameworks\gliner\usage\index.md#pipelines)
+### [More details on usage](frameworks\gliner\usage\index.md#pipelines)
 
 ## Bi-Encoder Models
 
@@ -191,7 +191,7 @@ Welcome to the Gliner Framework Quickstart Guide! This document will help you ge
    </details>
 
 ## GLiNER-BioMed
-GLiNER-biomed, developed in collaboration with [DS4DH](https://www.unige.ch/medecine/radio/en/research-groups/1035teodoro) from the University of Geneva, introduces a specialized suite of efficient open biomedical NER models based on the GLiNER framework. GLiNER-biomed leverages synthetic annotations distilled from large generative biomedical language models to achieve state-of-the-art zero-shot and few-shot performance in biomedical entity recognition tasks.
+GLiNER-biomed developed in collaboration with [DS4DH](https://www.unige.ch/medecine/radio/en/research-groups/1035teodoro) from the University of Geneva, introduces a specialized suite of efficient open biomedical NER models based on the GLiNER framework. GLiNER-biomed leverages synthetic annotations distilled from large generative biomedical language models to achieve state-of-the-art zero-shot and few-shot performance in biomedical entity recognition tasks.
 
 <GlinerBiomedTable />
 

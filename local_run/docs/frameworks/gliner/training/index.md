@@ -21,7 +21,7 @@ tokenizer = AutoTokenizer.from_pretrained(model.config.model_name)
 
 ### Define Dataset
 
-The dataset for training GLiNER should be tokenized text and position of start and end of each entity in the text.
+The dataset for training GLiNER should contain tokenized text and the start and end positions of each entity in the text.
 ```python
 # Dummy training data
 train_data = [
@@ -182,7 +182,7 @@ if __name__ == '__main__':
 ## General recommendations
 To fine-tune pretrained models, you should set parameter `prev_path` to the name of the model you want to fine-tune. The model configuration would be implicitly loaded from the checkpoint and you cannot change it during the fine-tuning with base training script, [see which parameters would be inherited](../components--configs/#training-configuration).
 
-If you want to train model from scratch, `prev_path` should be set to `null`. If parameter `labels_encoder` is not `null`, the architecture woul be turned into bi-encoder.
+If you want to train model from scratch, `prev_path` should be set to `null`. If parameter `labels_encoder` is not `null`, the architecture would be turned into a bi-encoder.
 
 ## Fine-tuning Uni-Encoder GLiNER
 Here is an example how to fine-tune pretrained uni-encoder GLiNER model. To fine-tune a specific model, define the name of the model with `prev_path` argument. For example, we want to fine-tune [`knowledgator/gliner-multitask-large-v0.5`](https://huggingface.co/knowledgator/gliner-multitask-large-v0.5).
@@ -234,7 +234,7 @@ max_len: 384
 freeze_token_rep: false
 ```
 ### Run [training script](#training-script)
-After we defined our config.yaml, we could run the training.
+Once config.yaml is defined, run the training script.
 
 ```python
 python train.py --config "config.yaml"
@@ -290,13 +290,13 @@ max_len: 384
 freeze_token_rep: false
 ```
 ### Run [training script](#training-script)
-After we defined our config.yaml, we could run the training.
+Once config.yaml is defined, run the training script.
 
 ```python
 python train.py --config "config.yaml"
 ```
 ## Training Uni-Encoder GLiNER from scratch
-Here is an example how to fine-tune pretrained uni-encoder GLiNER model. To fine-tune a specific model, define the name of the model with `prev_path` argument. For example, we want to fine-tune [`knowledgator/gliner-multitask-large-v0.5`](https://huggingface.co/knowledgator/gliner-multitask-large-v0.5).
+Here is an example how to train a uni-encoder GLiNER model from scratch. To fine-tune a specific model, define the name of the model with `prev_path` argument. For example, we want to fine-tune [`knowledgator/gliner-multitask-large-v0.5`](https://huggingface.co/knowledgator/gliner-multitask-large-v0.5).
 
 ### Define config.yaml
 ```yaml config.yaml
@@ -356,7 +356,7 @@ max_len: 386
 freeze_token_rep: false
 ```
 ### Run [training script](#training-script)
-After we defined our config.yaml, we could run the training.
+Once config.yaml is defined, run the training script.
 
 ```python
 python train.py --config "config.yaml"
@@ -422,7 +422,7 @@ max_len: 386
 freeze_token_rep: false
 ```
 ### Run [training script](#training-script)
-After we defined our config.yaml, we could run the training.
+Once config.yaml is defined, run the training script.
 
 ```python
 python train.py --config "config.yaml"

@@ -41,13 +41,54 @@ for entity in entities:
     ```
 </details>
 
+## Local Run
+
+You can load your local model and tokenizer with `cache_dir` parameter.
+
+```python
+from gliner import GLiNER
+
+# Initialize GLiNER with the base model
+model = GLiNER.from_pretrained("gliner-multitask-large-v0.5", cache_dir="local_model")
+
+# Sample text for entity prediction
+text = """
+Cristiano Ronaldo dos Santos Aveiro (Portuguese pronunciation: [kɾiʃˈtjɐnu ʁɔˈnaldu]; born 5 February 1985) is a Portuguese professional footballer who plays as a forward for and captains both Saudi Pro League club Al Nassr and the Portugal national team. Widely regarded as one of the greatest players of all time, Ronaldo has won five Ballon d'Or awards,[note 3] a record three UEFA Men's Player of the Year Awards, and four European Golden Shoes, the most by a European player. He has won 33 trophies in his career, including seven league titles, five UEFA Champions Leagues, the UEFA European Championship and the UEFA Nations League. Ronaldo holds the records for most appearances (183), goals (140) and assists (42) in the Champions League, goals in the European Championship (14), international goals (128) and international appearances (205). He is one of the few players to have made over 1,200 professional career appearances, the most by an outfield player, and has scored over 850 official senior career goals for club and country, making him the top goalscorer of all time.
+"""
+
+# Labels for entity prediction
+labels = ["Person", "Award", "Date", "Competitions", "Teams"]
+
+# Perform entity prediction
+entities = model.predict_entities(text, labels, threshold=0.5)
+
+# Display predicted entities and their labels
+for entity in entities:
+    print(entity["text"], "=>", entity["label"])
+```
+
+<details>
+    <summary>Expected Output</summary>
+    ```bash
+    Cristiano Ronaldo dos Santos Aveiro => Person
+    5 February 1985 => Date
+    Al Nassr => Teams
+    Portugal national team => Teams
+    UEFA Men's Player of the Year Awards => Award
+    European Golden Shoes => Award
+    UEFA Champions Leagues => Competitions
+    UEFA European Championship => Competitions
+    UEFA Nations League => Competitions
+    ```
+</details>
+
 ## 🏃‍♀️Using FlashDeBERTa
 
 Most GLiNER models use the DeBERTa encoder as their backbone. This architecture offers strong token classification performance and typically requires less data to achieve good results. However, a major drawback has been its slower inference speed, and until recently, there was no flash attention implementation compatible with DeBERTa's disentangled attention mechanism.
 
 To address this, [FlashDeBERTa](https://github.com/Knowledgator/FlashDeBERTa) was introduced.
 
-To use `FlashDeBERTa` with GLiNER, install it with:
+To use `FlashDeBERTa` with GLiNER, install it:
 
 ```bash
 pip install flashdeberta -U
@@ -72,7 +113,7 @@ GLiNER-Multitask models are designed to extract relevant information from plain 
    * Named Entity Recognition (NER): Identifies and categorizes entities such as names, organizations, dates, and other specific items in the text.
    * Relation Extraction: Detects and classifies relationships between entities within the text.
    * Summarization: Extract the most important sentences that summarize the input text, capturing the essential information.
-   * Sentiment Extraction: Identify parts of the text that signalize a positive, negative, or neutral sentiment;
+   * Sentiment Extraction: Identify parts of the text that signal a positive, negative, or neutral sentiment;
    * Key-Phrase Extraction: Identifies and extracts important phrases and keywords from the text.
    * Question-answering: Finding an answer in the text given a question;
    * Open Information Extraction: Extracts pieces of text given an open prompt from a user, for example, product description extraction;
@@ -140,7 +181,7 @@ The `GLiNERQuestionAnswerer` is a pipeline for question-answering tasks based on
    model = GLiNER.from_pretrained(model_id)
    answerer = GLiNERQuestionAnswerer(model=model)
    ```
-2. **Extract an answer from a Text**  
+2. **Extract an Answer from Text**  
    Extract an answer to the input question.
 
    ```python
@@ -178,7 +219,7 @@ The `GLiNERQuestionAnswerer` is a pipeline for question-answering tasks based on
 ### Relation Extraction
 
 The `GLiNERRelationExtractor` is a pipeline for extracting relationships between entities in a text using the GLiNER model. The pipeline combines both zero-shot named entity recognition and relation extraction. It identifies entity pairs and their relations based on a specified by user set of relation types.
-S
+
 1. **Initialize the Relation Extractor**  
    Load a pretrained model and initialize the `GLiNERRelationExtractor`.
 
@@ -209,11 +250,12 @@ S
    </details>
 
 
-For more nuance tuning of relation extraction pipeline, we recommend to use `utca` framework.
+For more nuanced tuning of the relation extraction pipeline, we recommend using the `utca` framework.
 
 ### Open Information Extraction
 
-The `GLiNEROpenExtractor` is a pipeline designed to extract information from a text given a user query. By default in terms of GLiNER labels `match` tag is used, however, we recommend combining prompting and selecting appropriate tags for your tasks. 
+The `GLiNEROpenExtractor` is a pipeline designed to extract information from a text given a user query. By default in terms of `GLiNER` labels `match` tag is used, however, we recommend combining prompting and selecting appropriate tags for your tasks.
+
 
 1. **Initialize the Information Extractor**  
    Load a pretrained model and initialize the `GLiNEROpenExtractor`.
@@ -281,7 +323,7 @@ The `GLiNERSummarizer` pipeline leverages the GLiNER model for performing summar
 ## Relations extraction pipeline with [utca](https://github.com/Knowledgator/utca)
 1. **Install utca**
 :::danger Important
-First of all, we need import neccessary components of the library and initialize predictor - GLiNER model and construct pipeline that combines NER and realtions extraction:
+First of all, we need import necessary components of the library and initialize predictor - GLiNER model and construct pipeline that combines NER and relations extraction:
 :::
 ```bash
 pip install -U utca
@@ -308,7 +350,7 @@ predictor = GLiNERPredictor( # Predictor manages the model that will be used by 
 )
 
 pipe = (
-    GLiNER( # GLiNER task produces classified entities that will be at the "output" key.
+    GLiNER( # GLiNER task produces classified entities in the "output" key.
         predictor=predictor,
         preprocess=GLiNERPreprocessor(threshold=0.7) # Entities threshold
     ) 

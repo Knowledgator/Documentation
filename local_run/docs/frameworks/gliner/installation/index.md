@@ -74,3 +74,26 @@ To install the GLiNER library from source, follow these steps:
    print(gliner.__version__)
    ```
 ---
+## Install FlashDeBERTa
+
+Most GLiNER models use the DeBERTa encoder as their backbone. This architecture offers strong token classification performance and typically requires less data to achieve good results. However, a major drawback has been its slower inference speed, and until recently, there was no flash attention implementation compatible with DeBERTa's disentangled attention mechanism.
+
+To address this, [FlashDeBERTa](https://github.com/Knowledgator/FlashDeBERTa) was introduced.
+
+To use `FlashDeBERTa` with GLiNER, install it:
+
+```bash
+pip install flashdeberta -U
+```
+:::tip
+Before using FlashDeBERTa, please make sure that you have `transformers>=4.47.0`.
+:::
+
+GLiNER will automatically detect and use `FlashDeBERTa`. If needed, you can switch to the standard `eager` attention mechanism by specifying the attention implementation:
+
+```python
+model = GLiNER.from_pretrained("urchade/gliner_mediumv2.1", _attn_implementation="eager")
+```
+
+`FlashDeBERTa` provides up to a 3× speed boost for typical sequence lengths—and even greater improvements for longer sequences.
+![alt text](image.png)

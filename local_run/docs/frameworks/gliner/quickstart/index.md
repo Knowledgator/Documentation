@@ -13,7 +13,7 @@ pip install gliner
 
 ## Basic Usage
 
-Here’s a simple example to get started:
+Here is a simple example to get started:
 
 ```python
 from gliner import GLiNER
