@@ -1,5 +1,6 @@
 # Intro
 GLiNER (Generalist and Lightweight Model for Named Entity Recognition) is a Named Entity Recognition (NER) model capable of identifying any entity type using a bidirectional transformer encoder (BERT-like). It provides a practical alternative to traditional NER models, which are limited to predefined entities, and Large Language Models (LLMs) that, despite their flexibility, are costly and large for resource-constrained scenarios.
+
 ![alt text](image-1.png)
 
 ## Overview
@@ -10,15 +11,20 @@ Despite the above-mentioned limitations of encoder-only models, they can still o
 With the above foreword, in this post I’d like to break-down the GLiNER architecture into its atomic pieces. Furthermore, there has been significant follow-up work on the original GLiNER architecture allowing the approach to extrapolate beyond NER to Extractive Question-answering, Open Information Extraction, Extractive Summarisation, Relation Extraction, and Open NER proposed in the GLiNER paper. Lastly, another facet of GLiNER that was most recently was to optimise its computational performance by de-coupling the entity-type and input sequence encoding processing into two different model. Hence, allowing for the possibility of pre-computing entity-type representations just once saving unnecessary computation. This speeds-up performance when the `num_tokens(entity_types) > num_tokens(input_sequence)` condition is present.
 
 ## Vanilla GLiNER
+
 ![alt text](image-2.png)
+
 ### Training Approach
 GLiNER primarily employs BERT-like bi-direction encoder-only pre-trained language models. Further more both the entity labels and input sequence are concatenated and then passed through the encoder model. The standard `[SEP]` special token is used to indicate the boundary between entity labels and input sequence. Whereby, to represent boundary for each entity-type a special token `[ENT]` is placed before each entity type moreover, the embedding of this token is initialised randomly at the beginning of training.
+
 ![alt text](image-3.png)
+
 After the forward-pass of the encoder model the `[ENT]` token representations represent each of their preceding entity label and are passed through a two-layer feedforward network for further refinement. The resulting entity representation for an entity type `t` can be expressed as:
 
 ![alt text](image-4.png)
 
 ![alt text](image-5.png)
+
 Similarly, the input sequence tokens are combined to form spans for instance (assuming no word is split into subword tokens):
 
 ```python
