@@ -2,7 +2,6 @@
   "label": "GLiClass",
   "position": 2,
   "link": {
-    "type": "doc",
-    "id": "frameworks/gliclass/index"
+    "type": "generated-index"
   }
 }

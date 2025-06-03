@@ -1,0 +1,8 @@
+{
+  "label": "Pretrained Models",
+  "position": 5,
+  "link": {
+    "type": "doc",
+    "id": "frameworks/gliclass/pretrained-models/index"
+  }
+}

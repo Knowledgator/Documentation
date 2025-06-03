@@ -1,0 +1,85 @@
+import BaseModelsTable from './tables/BaseModelsTable';
+import LLM2VecModelsTable from './tables/LLM2VecModelsTable';
+import ModernModelsTable from './tables/ModernModelsTable';
+
+# Pretrained Models
+This page provides detailed information about pre-trained GLiClass models
+
+## DeBERTa based models
+
+<BaseModelsTable />
+
+## LLM based models
+
+<LLM2VecModelsTable />
+:::important
+To use this models make sure you have `llm2vec` framework installed.  
+You can install it as follows: 
+```bash
+pip install llm2vec
+pip install flash-attn --no-build-isolation
+```   
+For more information please visit the [**official repository**](https://github.com/McGill-NLP/llm2vec)
+:::
+
+## ModerBERT based models
+
+<ModernModelsTable />
+:::tip
+To achive better performance for ModerBERT based models its reccomended to initialize tokenizer as follows:
+```python
+from transformers import AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained("knowledgator/gliclass-modern-base-v2.0", add_prefix_space=True)
+```
+:::
+:::tip
+ModernBERT based models show the best performance using flash-attention.  
+Install it with `pip install flash-attn --no-build-isolation`
+:::
+
+## Zero-Shot Classification
+
+Any of the above models can be used in a `ZeroShotClassificationPipeline` as shown in the example below.
+
+```python
+import torch
+from gliclass import GLiClassModel, ZeroShotClassificationPipeline
+from transformers import AutoTokenizer
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+model = GLiClassModel.from_pretrained("knowledgator/gliclass-small-v1.0")
+tokenizer = AutoTokenizer.from_pretrained("knowledgator/gliclass-small-v1.0")
+
+pipeline = ZeroShotClassificationPipeline(
+   model,
+   tokenizer,
+   classification_type='single-label',
+   device=device
+)
+text = """
+Apple Inc. is an American multinational technology company headquartered in Cupertino, California. Apple is the world's largest technology company by revenue, with US$394.3 billion in 2022 revenue. As of March 2023, Apple is the world's biggest company by market capitalization. As of June 2022, Apple is the fourth-largest personal computer vendor by unit sales and the second-largest mobile phone manufacturer in the world. It is considered one of the Big Five American information technology companies, alongside Alphabet (parent company of Google), Amazon, Meta Platforms, and Microsoft. 
+Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975 to develop and sell BASIC interpreters for the Altair 8800. During his career at Microsoft, Gates held the positions of chairman, chief executive officer, president and chief software architect, while also being the largest individual shareholder until May 2014.
+Apple was founded as Apple Computer Company on April 1, 1976, by Steve Wozniak, Steve Jobs (1955–2011) and Ronald Wayne to develop and sell Wozniak's Apple I personal computer. It was incorporated by Jobs and Wozniak as Apple Computer, Inc. in 1977. The company's second computer, the Apple II, became a best seller and one of the first mass-produced microcomputers. Apple went public in 1980 to instant financial success. The company developed computers featuring innovative graphical user interfaces, including the 1984 original Macintosh, announced that year in a critically acclaimed advertisement called "1984". By 1985, the high cost of its products, and power struggles between executives, caused problems. Wozniak stepped back from Apple and pursued other ventures, while Jobs resigned and founded NeXT, taking some Apple employees with him. 
+"""
+labels = ["business", "computers", "sport", "politics", "science"]
+results = pipeline(
+   text,
+   labels,
+   threshold=0.5,
+   batch_size=8
+)[0] # Select 1st as we only have one text
+
+for result in results:
+   print(f"{result['label']} => {result['score']:.3f}")
+```
+<details>
+   <summary>Expected Output</summary>
+   ```bash
+   business => 0.519
+   ```
+</details>
+
+:::tip
+If you need to classify large amount of labels, it is recommended to use this `ZeroShotClassificationWithLabelsChunkingPipeline` instead.  
+See more about usage [**here**](../usage/)
+:::
