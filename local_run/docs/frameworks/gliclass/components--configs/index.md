@@ -147,6 +147,17 @@ Alpha parameter for the focal loss.
 Gamma parameter for the focal loss.
 
 ---
+#### `focal_loss_reduction`
+`str|None`, *optional*, defaults to `None`
+
+Selects reduction method for focal loss calculation.
+
+**Available options:**  
+- `"none"` - Returns the loss tensor without any reduction applied.
+- `"sum"` - Returns the mean loss normalized by the number of valid (non-ignored) elements.
+- `"mean"` - Returns the sum of all loss elements.
+
+---
 #### `logit_scale_init_value`
 `float`, *optional*, defaults to `2.6592`
 
