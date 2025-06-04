@@ -1,0 +1,32 @@
+import DatasetsTable from './tables/DatasetsTable';
+
+# Prepared Datasets
+
+This page provides a detailed overview of the official datasets for GLiClass models.
+
+<DatasetsTable />
+
+## [gliclass-v2.0-RAC](https://huggingface.co/datasets/knowledgator/gliclass-v2.0-RAC)
+
+![image/png](https://cdn-uploads.huggingface.co/production/uploads/6405f62ba577649430be5124/VFl2YKJLqUUYFoFAsIUUX.png)
+![image/png](https://cdn-uploads.huggingface.co/production/uploads/6405f62ba577649430be5124/t4cMnOq3OEL2qiVNd0d3p.png)
+
+To further enhance classification performance, we generated a Retrieval-Augmented Classification (RAC) dataset. Each text example in the gliclass-v2.0 dataset was encoded using the paraphrase-MiniLM-L6-v2 sentence transformer and indexed in an HNSW (Hierarchical Navigable Small World) database. For 250k randomly selected samples, we retrieved up to three most similar examples (cosine similarity > 0.5) from the dataset.
+
+During augmentation:
+- The number of retrieved examples per sample was randomly chosen between 1 and 3.
+- 30% of retrieved examples were replaced with random, unrelated examples to introduce controlled noise.
+- If true labels were present in a retrieved example, false labels were removed with a 50% probability to balance information clarity.
+
+Each retrieved example was formatted using structured ```<<EXAMPLE>> ... <</EXAMPLE>>``` tags, where:
+- True labels were explicitly marked as ```<<TRUE_LABEL>>  {label}```.
+- False labels were marked as ```<<FALSE_LABEL>>  {label}```, unless removed.
+
+For each randomly selected 250k examples, the “text” was modified as ```{original_text} <<EXAMPLE>> {retrieved_text} {true_labels_str} {false_labels_str} <</EXAMPLE>>...```
+Where:
+- ```{original_text}``` is the original example text.
+- ```{retrieved_text}``` is a similar or randomly selected example.
+- ```{true_labels_str}``` contains true labels formatted as ```<<TRUE_LABEL>> {label}```.
+- ```{false_labels_str}``` contains false labels formatted as ```<<FALSE_LABEL>> {label}``` (unless removed with 50% probability).
+
+Such a strategy allows the model to learn how to utilize the provided information without overfocusing on RAC examples. With both relevant and randomly retrieved examples, the dataset maintains a balance between useful contextual information and controlled noise. This ensures that the model does not become overly reliant on retrieval-augmented inputs while still benefiting from additional context when available.
