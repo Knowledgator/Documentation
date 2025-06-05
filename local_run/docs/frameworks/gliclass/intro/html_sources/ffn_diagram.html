@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFN Text Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .input-vector {
+            background-color: #90EE90;
+            color: #333;
+            padding: 20px 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            /* border: 3px solid #333; */
+            position: relative;
+            min-width: 120px;
+        }
+        
+        .input-vector::after {
+            content: '';
+            position: absolute;
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 20px solid #333;
+        }
+        
+        .ffn-block {
+            background: linear-gradient(135deg, #4A90E2, #357ABD);
+            border-radius: 20px;
+            padding: 40px 30px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .ffn-block::after {
+            content: '';
+            position: absolute;
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 20px solid #333;
+        }
+        
+        .ffn-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .ffn-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .output-vector {
+            background-color: #FFD700;
+            color: #333;
+            padding: 20px 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            /* border: 3px solid #333; */
+            min-width: 120px;
+        }
+        
+        .formula {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* border: 2px solid #333; */
+        }
+        
+        .formula-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .dimension-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .vector-label {
+            font-size: 14px;
+            margin-top: 8px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="formula">
+            <div class="formula-text">t = FFN<sub>text</sub>(h<sub>text</sub>) ∈ ℝ<sup>D</sup></div>
+        </div>
+        
+        <!-- Input vector -->
+        <div class="input-vector">
+            h<sub>class</sub>
+            <div class="vector-label">input vector</div>
+        </div>
+        
+        <!-- FFN block -->
+        <div class="ffn-block">
+            <div class="ffn-title">FFN<sub>class</sub></div>
+        </div>
+        
+        <!-- Output vector -->
+        <div class="output-vector">
+            q<sub>c</sub>
+            <div class="vector-label">output vector ∈ ℝ<sup>D</sup></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLiClass Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+        
+        .architecture {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .input-section {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .encoder {
+            background: linear-gradient(135deg, #4285f4, #1976d2);
+            color: white;
+            padding: 80px 40px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.3);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .encoder-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .encoder-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .tokens {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .token {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .label-token {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+            color: white;
+        }
+        
+        .sep-token {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+        }
+        
+        .text-token {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            color: white;
+        }
+        
+        .output-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .processing-block {
+            background: linear-gradient(135deg, #42a5f5, #1976d2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(66, 165, 245, 0.3);
+        }
+        
+        .feature-boxes {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .feature-box {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 70px;
+        }
+        
+        .text-feature {
+            background: linear-gradient(135deg, #26c6da, #0097a7);
+            color: white;
+        }
+        
+        .class-feature {
+            background: linear-gradient(135deg, #66bb6a, #43a047);
+            color: white;
+        }
+        
+        .arrow {
+            font-size: 40px;
+            color: #4285f4;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .scorer-block {
+            background: linear-gradient(135deg, #ab47bc, #8e24aa);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(171, 71, 188, 0.3);
+        }
+        
+        .logits-box {
+            background: linear-gradient(135deg, #ef5350, #d32f2f);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #4285f4;
+            margin: 10px auto;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Illustrated GLiClass</h1>
+        
+        <div class="architecture">
+            <!-- Input Section -->
+            <div class="input-section">
+                <div class="section-title">Encode Tokens</div>
+                <div class="tokens">
+                    <div class="token label-token">&lt;&lt;LABEL&gt;&gt;</div>
+                    <div class="token label-token">travel</div>
+                    <div class="token label-token">&lt;&lt;LABEL&gt;&gt;</div>
+                    <div class="token label-token">science</div>
+                    <div class="token label-token">&lt;&lt;LABEL&gt;&gt;</div>
+                    <div class="token label-token">sport</div>
+                    <div class="token sep-token">&lt;&lt;SEP&gt;&gt;</div>
+                    <div class="token text-token">I love</div>
+                    <div class="token text-token">playing</div>
+                    <div class="token text-token">football</div>
+                    <div class="token text-token">...</div>
+                </div>
+            </div>
+            
+            <!-- Arrow -->
+            <div class="arrow">→</div>
+            
+            <!-- Encoder -->
+            <div class="encoder">
+                <div class="encoder-title">Encoder-only Transformer</div>
+                <div class="encoder-subtitle">(DeBERTa, BERT, ...)</div>
+            </div>
+            
+            <!-- Arrow -->
+            <div class="arrow">→</div>
+            
+            <!-- Output Section -->
+            <div class="output-section">
+                <div class="section-title">Contextualize and Pool Representations</div>
+                
+                <!-- Feature Extraction -->
+                <div class="processing-block">
+                    <div>Extract Class Features</div>
+                    <div class="feature-boxes">
+                        <div class="feature-box class-feature">travel emb</div>
+                        <div class="feature-box class-feature">science emb</div>
+                        <div class="feature-box class-feature">sport emb</div>
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.9;">Class Embeddings</div>
+                </div>
+                
+                <div class="flow-arrow"></div>
+                
+                <!-- Text Processing -->
+                <div class="processing-block">
+                    <div>Pool Text Representations</div>
+                    <div class="feature-boxes">
+                        <div class="feature-box text-feature">pooled text</div>
+                        <div class="feature-box text-feature">projection</div>
+                        <div class="feature-box text-feature">normalized</div>
+                    </div>
+                    <div style="font-size: 12px; opacity: 0.9;">Text Embeddings</div>
+                </div>
+                
+                <div class="flow-arrow"></div>
+                
+                <!-- Scoring -->
+                <div class="scorer-block">
+                    <div>Scoring Network</div>
+                    <div style="font-size: 14px; margin-top: 10px; opacity: 0.9;">
+                        (Dot Product / MLP / Weighted-Dot / Hopfield)
+                    </div>
+                    <div class="logits-box">
+                        Classification Logits
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
