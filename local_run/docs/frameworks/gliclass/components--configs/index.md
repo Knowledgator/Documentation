@@ -91,7 +91,7 @@ Defines the type of classification problem and determines the loss function used
 #### `max_num_classes`
 `Any`, *optional*, defaults to `25`
 
-Description for `max_num_classes`.
+Max classes for classification.
 
 ---
 #### `use_lstm`
@@ -222,7 +222,7 @@ This configuration class used to define the behavior of a GLiClass model during 
 #### `cache_dir`
 `str|None`, *optional* defaults to `None`
 
-Directory for data caching.
+Directory to store cache files. If specified, the model and tokenizer would be loaded form local `cache_dir`.
 
 ---
 #### `others_lr`
@@ -253,7 +253,7 @@ This configuration class used to define the behavior of a GLiClass model during 
 #### `cliprange`
 `float`, *optional*, defaults to `0.2`
 
-Description for `cliprange`.
+Clipping range for PPO policy gradient updates to prevent large policy changes.
 
 ---
 #### `num_rl_iters`

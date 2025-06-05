@@ -14,3 +14,34 @@ With the above foreword, in this post I'd like to break-down the GLiClass archit
 ## GLiClass uni-encoder
 ![alt text](images/gliclass-arch.png)
 
+GLiClass UniEncoder employs BERT-like bi-directional encoder-only pre-trained language models as its backbone. The key innovation lies in how the model processes both the input text and candidate labels simultaneously in a single forward pass, eliminating the need for multiple text-label pair evaluations characteristic of cross-encoder approaches.The model concatenates class labels and input text using a structured prompt format with special tokens `<<LABEL>>` and `<<SEP>>`.
+
+For example, classifying the text *"One day I will see the world!"* with candidate labels *["travel", "dreams", "sport"]*:
+```
+<<LABEL>>travel<<LABEL>>dreams<<LABEL>>sport<<SEP>>One day I will see the world!
+```
+
+![alt text](images/fwd-pass.png)
+
+After the forward pass through the encoder model, the sequence representations are processed to extract meaningful embeddings for both text and class labels. After the input text tokens are pooled to create a unified text representation:
+
+![alt text](images/h_text.png)
+
+`H_text` represents the hidden states of text tokens and Pooling can be average, max, first token, or other pooling strategies.  
+While for each class label `c`, the representation is extracted from the corresponding `<<LABEL>>` token position:
+
+![alt text](images/h_c.png)
+
+After this features extraction steps, both, text and class representations are projected through learned transformation layers
+
+For output vector `t` (for texts) the pojection workflow will look as follows:
+
+![alt text](images/fnn_text.png)
+
+Similarly we can get `q_c` for classes:
+
+![alt text](images/fnn_class.png)
+
+
+
+
