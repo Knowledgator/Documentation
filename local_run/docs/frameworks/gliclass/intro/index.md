@@ -64,3 +64,34 @@ Training data follows a structured JSON format that works both for single-label 
 For multi-label classification, GLiClass employs [Focal Loss](https://arxiv.org/pdf/1708.02002) to handle class imbalance
 
 ![alt text](images/focal_loss.png)
+
+## GLiClass bi-encoder
+
+While the UniEncoder architecture provides an effective single forward pass solution, it faces several limitations when scaling to scenarios with large label sets or frequent label reuse across different classification tasks. So despite efficiency of UniEncoder approach it encounters bottlenecks in some scenarios where performance degrades when the number of labels significantly exceeds the input sequence length. To address sucgh limitations, GLiClass introduces a BiEncoder architecture that decouples the encoding process of input text and class labels into two separate transformer models.
+
+![alt text](images/gliclass-bi-enc-arch.png)
+<details>
+    - Text Encoder: Processes input text independently using a pre-trained language model
+    - Label Encoder: Processes class labels separately using a dedicated sentence transformer model
+</details>
+
+GLiClass BiEncoder differs from Unicoder in that it can process classes and texts independently of each other.In our architecture, texts will be processed first
+
+![alt text](images/bi-enc-text-proc.png)
+
+After the texts are encoded model will encode labels as follows:
+
+![alt text](images/bi-enc-labels-proc.png)
+
+Since the text and label encoders may have different hidden dimensions, a projection layer aligns them
+
+![alt text](images/bi-enc-proj.png)
+
+Overall BiEncoder flow looks as follows:
+
+![alt text](images/bi-enc-flow.png)
+
+
+:::tip
+With this knowledge you can safely start using our GLiClass [models](../pretrained-models/index.mdx). We also have prepared detailed [usage guide](../usage/index.md) for you.
+:::
