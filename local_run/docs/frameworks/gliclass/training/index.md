@@ -720,6 +720,27 @@ if __name__ == '__main__':
 
     main(args)
 ```
+:::danger IMPORTANT
+:::
 
-## General recommendations
+## Evaluation
+
+Once you have trained your model, you will most likely want to evaluate it. We have already prepared a `test_gliclass.py`<sup><a href="https://github.com/Knowledgator/GLiClass/blob/main/test_gliclass.py" target="_blank" rel="noopener noreferrer">[source]</a></sup> script for you that will help you to evaluate the model on 13 different zero-shot datasets.
+
+**Enter the repo and activate yout env**
+```bash
+cd GLiClass
+source venv/bin/activate
+```
+
+:::note
+If you don't have `gliclass` framework installed, please check out our [installation guide](../installation/index.md) first.
+:::
+
+**Run evaluation script**
+
+```bash
+python test_gliclass.py --model knowledgator/gliclass-base-v1.0 --api_key YOR_KEY_IF_REQUIERED
+```
+
 
