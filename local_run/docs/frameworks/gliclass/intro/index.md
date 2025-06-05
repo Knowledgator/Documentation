@@ -12,7 +12,7 @@ Despite the above-mentioned limitations of traditional classification approaches
 With the above foreword, in this post I'd like to break-down the GLiClass architecture into its atomic pieces, focusing on the UniEncoder approach as the foundational architecture. GLiClass adapts the successful GLiNER paradigm from named entity recognition to sequence classification, enabling single forward pass inference for arbitrary label sets. The model supports both single-label and multi-label classification scenarios, incorporates advanced features like Retrieval-Augmented Classification (RAC) for few-shot enhancement, and offers flexible scoring mechanisms ranging from simple dot-product similarity to sophisticated attention-based approaches. This architectural flexibility allows GLiClass to scale efficiently across diverse classification tasks while maintaining the simplicity and speed advantages of encoder-only models.
 
 ## GLiClass uni-encoder
-![alt text](images/gliclass-arch.png)
+![alt text](images/gliclass-arch-uni.png)
 
 GLiClass UniEncoder employs BERT-like bi-directional encoder-only pre-trained language models as its backbone. The key innovation lies in how the model processes both the input text and candidate labels simultaneously in a single forward pass, eliminating the need for multiple text-label pair evaluations characteristic of cross-encoder approaches.The model concatenates class labels and input text using a structured prompt format with special tokens `<<LABEL>>` and `<<SEP>>`.
 
@@ -42,6 +42,25 @@ Similarly we can get `q_c` for classes:
 
 ![alt text](images/fnn_class.png)
 
+Once GLiClass have the projected embeddings we can move on to similarity calculations between text and classs. 
+The similarity between text and each class is computed using various scoring mechanisms:
 
+![alt text](images/scorer.png)
 
+Final classification probabilities are obtained via [`sigmoid`](https://en.wikipedia.org/wiki/Sigmoid_function) activation for multi-label or [`softmax`](https://en.wikipedia.org/wiki/Softmax_function) for single-label scenarios:
 
+![alt text](images/softmax_sigmoid.png)
+
+Training data follows a structured JSON format that works both for single-label and multi-label scenarios:
+
+```json
+{
+  "text": "Sample text for classification",
+  "all_labels": ["class1", "class2", "class3", "class4"],
+  "true_labels": ["class1", "class3"]
+}
+```
+
+For multi-label classification, GLiClass employs [Focal Loss](https://arxiv.org/pdf/1708.02002) to handle class imbalance
+
+![alt text](images/focal_loss.png)

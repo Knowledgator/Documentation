@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Softmax Single-Label Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e8e8e8;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 150px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .score-block {
+            background-color: #FF6B6B;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 100px;
+        }
+        
+        .score-main {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .score-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .softmax-block {
+            background-color: #9B59B6;
+            color: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .softmax-block::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid #9B59B6;
+        }
+        
+        .softmax-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .softmax-method {
+            font-size: 14px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+        
+        .softmax-formula {
+            font-size: 14px;
+            font-family: 'Times New Roman', serif;
+            background-color: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .softmax-note {
+            font-size: 12px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .output-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 150px;
+        }
+        
+        .probability-block {
+            background-color: #32CD32;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 100px;
+        }
+        
+        .prob-main {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .prob-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .dots {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #666;
+            padding: 8px 0;
+        }
+        
+        .sum-note {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Input scores -->
+        <div class="input-section">
+            <div class="section-title">Scores</div>
+            
+            <div class="score-block">
+                <div class="score-main">s₁</div>
+                <div class="score-label">score 1</div>
+            </div>
+            
+            <div class="score-block">
+                <div class="score-main">s₂</div>
+                <div class="score-label">score 2</div>
+            </div>
+            
+            <div class="score-block">
+                <div class="score-main">s₃</div>
+                <div class="score-label">score 3</div>
+            </div>
+            
+            <div class="dots">⋮</div>
+            
+            <div class="score-block">
+                <div class="score-main">sₙ</div>
+                <div class="score-label">score n</div>
+            </div>
+        </div>
+        
+        <!-- Softmax processor -->
+        <div class="softmax-block">
+            <div class="softmax-title">Softmax</div>
+            <div class="softmax-method">Joint normalization</div>
+            <div class="softmax-formula">p = softmax([s₁, s₂, ..., sₙ])</div>
+            <div class="softmax-note">(single-label)</div>
+        </div>
+        
+        <!-- Output probabilities -->
+        <div class="output-section">
+            <div class="section-title">Probabilities</div>
+            
+            <div class="probability-block">
+                <div class="prob-main">p₁</div>
+                <div class="prob-label">prob 1</div>
+            </div>
+            
+            <div class="probability-block">
+                <div class="prob-main">p₂</div>
+                <div class="prob-label">prob 2</div>
+            </div>
+            
+            <div class="probability-block">
+                <div class="prob-main">p₃</div>
+                <div class="prob-label">prob 3</div>
+            </div>
+            
+            <div class="dots">⋮</div>
+            
+            <div class="probability-block">
+                <div class="prob-main">pₙ</div>
+                <div class="prob-label">prob n</div>
+            </div>
+            
+            <div class="sum-note">
+                Σ pᵢ = 1
+            </div>
+        </div>
+    </div>
+</body>
+</html>
