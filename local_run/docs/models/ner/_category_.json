@@ -1,0 +1,8 @@
+{
+  "label": "NER",
+  "position": 1,
+  "link": {
+    "type": "doc",
+    "id": "models/ner/index"
+  }
+}

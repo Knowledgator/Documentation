@@ -1,0 +1,8 @@
+{
+  "label": "Chemical Models",
+  "position": 3,
+  "link": {
+    "type": "doc",
+    "id": "models/chemical-models/index"
+  }
+}

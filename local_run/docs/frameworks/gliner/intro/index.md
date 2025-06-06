@@ -1,7 +1,7 @@
 # Intro
 GLiNER (Generalist and Lightweight Model for Named Entity Recognition) is a Named Entity Recognition (NER) model capable of identifying any entity type using a bidirectional transformer encoder (BERT-like). It provides a practical alternative to traditional NER models, which are limited to predefined entities, and Large Language Models (LLMs) that, despite their flexibility, are costly and large for resource-constrained scenarios.
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 ## Overview
 GLiNER addresses the critical limitation of traditional (BERT-like encoder-only) NER models, which entails that such models can only process a pre-defined set of discrete entities and lack zero-shot generalization capabilities outside the entity types of their training sets. Furthermore, such models become an even less attractive choice given the widespread proliferation of decoder-only LLMs. This is a byproduct of LLMs’ strong zero-shot performance mainly due to in-context learning and potential for further performance gains in few-shot regime.
@@ -12,18 +12,18 @@ With the above foreword, in this post I’d like to break-down the GLiNER archit
 
 ## Vanilla GLiNER
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ### Training Approach
 GLiNER primarily employs BERT-like bi-direction encoder-only pre-trained language models. Further more both the entity labels and input sequence are concatenated and then passed through the encoder model. The standard `[SEP]` special token is used to indicate the boundary between entity labels and input sequence. Whereby, to represent boundary for each entity-type a special token `[ENT]` is placed before each entity type moreover, the embedding of this token is initialised randomly at the beginning of training.
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 After the forward-pass of the encoder model the `[ENT]` token representations represent each of their preceding entity label and are passed through a two-layer feedforward network for further refinement. The resulting entity representation for an entity type `t` can be expressed as:
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 Similarly, the input sequence tokens are combined to form spans for instance (assuming no word is split into subword tokens):
 
@@ -43,28 +43,28 @@ spans = [
 ```
 In case if the word is split into more than one tokens the first token and the last token are used to mark span boundaries and their representations are further used. Finally the span representations are computed, more for a span starting at index `i` and ending at `j`, the span representation for span `Sij` can be computed as:
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 The resulting span representation would be D-dimensional vector:
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 The above process is applied to all spans on their token representations to compute unified span representations. To keep the computational overhead in-check the maximum span length is set to 12.
 
 Lastly, to compute whether a given span belongs to a entity label the sigmoid activation is applied on the dot-production of entity label and span representation:
 
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 To train the model on the sigmoid activations for each span and entity label interaction score Binary Cross Entropy loss is employed to classify between positive and negative instance of span and entity label interaction scores.
 
 ### Span Decoding
 To infer spans whether a give interaction score represents a particular entity type firstly, non-entity spans are removed by thresholding on interaction scores:
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 Furthermore, two decoding strategies are proposed:
 - Flat NER: Highest scoring non-overlapping spans are selected exhaustively.
@@ -80,37 +80,37 @@ During the forward pass of the model the the input sequence and labels are conca
 
 Let `T` be the token representations of input sequence and `L` be the token representations of labels. Where `M` is the input sequence length and `C` is the number of unique labels. `T’`, `T’’` represent refined input sequence and label representations in high-dimensional latent space.
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 Both `T’` and `L’` are element-wise multiplied across the axis `D` with `T’` and resulting in `M×C×2×D` dimensional matrices which then are re-permuted as:
 
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 To better capture interactions between input sequence and labels element-wise dot product between refined token representations is concatenated to whilst also concatenating `T’’’` and `L’’’` together across the last dimension `D`. Importantly, first dimension is kept as it is whereby the last dimension is element-wise multiplied.
 
-![alt text](image-14.png)
+![alt text](images/image-14.png)
 
 Afterwards the concatenated representations are passed through a FFN. To generate token-level classification scores for each class generating three logits corresponding to start, end, score. Let `S` be the score matrix then:
 
-![alt text](image-15.png)
+![alt text](images/image-15.png)
 
 ### Decoding Spans
 To determine whether a given token is positively interacting with a label scores, Flat NER decoding approach is used with a difference that scores are averaged for entire span:
 
-![alt text](image-16.png)
+![alt text](images/image-16.png)
 
 ### Self-training
 The pre-trained model is used to generated initial weak labels for domain NER benchmark and then model is fine-tuned on the weak labels by employing label smoothing which prevents the model to become over-confident on ground truth labels. This is beneficial when annotated labels are not GOLD standard.
 
 Essentially label smoothing acts as regularisation as it steals probability mass from correct label and distributes that to other classes hence, avoiding overfitting. For binary classification tasks the loss function with label smoothing looks like:
 
-![alt text](image-17.png)
+![alt text](images/image-17.png)
 
 Here `alpha` is the smoothing parameter.
 
 ## GLiNER Bi-encoder and Poly-encoder
 
-![alt text](image-18.png)
+![alt text](images/image-18.png)
 
 Although the original GLiNER architecture provides an powerful alternative to extract entities in zero-shot regimes. However, the model still have performance bottlenecks and limitations:
 
@@ -124,7 +124,7 @@ To address the above-mentioned shortcomings of the original architecture, the au
 Bi-encoder: The key idea behind their approach is to de-couple the encoding process of entity labels and input sequence. This allows for pre-computation of entity types just once resulting in more efficient acquisition of entity type representation. The authors employ pre-trained sentence transformers as entity type encoder and the original BERT-like model for encoding input sequence (identical to the original work).
 Poly-encoder: This encoder uses the representations produced by entity label and input sequence encoders and fuses them together to capture the interactions between them to capture additional signal similar to the original BiLM.
 
-![alt text](image-19.png)
+![alt text](images/image-19.png)
 
 The subsequent steps after encoding, in order to obtain coarser label and span embeddings remain unchanged when compared to the original work.
 
@@ -139,7 +139,7 @@ The de-coupled GLiNER model uses pre-trained DeBERTa (input sequence encoder) an
 GLiNER bi-encoder is jointly pre-trained on one million NER samples in a supervised fashion. This stage focuses mainly on aligning entity label representations with span representations.
 At stage two, the pre-trained bi-encoder is further fine-tuned on **35k** higher quality input sequence and entity types. This stages enhances the model performance on the NER task itself by refining the fidelity of representations.
 
-![alt text](image-20.png)
+![alt text](images/image-20.png)
 
 ### Training Considerations
 
@@ -147,7 +147,7 @@ The batch size can greatly influence the model generalisability. As, larger batc
 
 The key intuition behind focal loss is to mitigate class imbalance which is highly likely for larger batches. Focal loss can more formally be defined as:
 
-![alt text](image-21.png)
+![alt text](images/image-21.png)
 
 `pt` refers to probability of target class
 - α is to control the influence positive and negative samples within batch to reduce effect of class imbalance

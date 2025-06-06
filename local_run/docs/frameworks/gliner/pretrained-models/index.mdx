@@ -1,125 +1,14 @@
 import MultiTaskTable from './tables/MultiTaskTable';
 import BiEncoderTable from './tables/BiEncoderTable';
 import GlinerBiomedTable from './tables/GlinerBiomedTable';
+import MultitaskModels from './__partials__/multitask.mdx';
+
 
 
 # Pretrained Models
 
 This page provides detailed information about pre-trained Gliner models
 
-## Multitask Models
-
-<MultiTaskTable />
-
-
-### Classification
-   ```python
-   from gliner import GLiNER
-   from gliner.multitask import GLiNERClassifier
-
-   model_id = 'knowledgator/gliner-multitask-v1.0'
-   model = GLiNER.from_pretrained(model_id)
-   classifier = GLiNERClassifier(model=model)
-   text = "SpaceX successfully launched a new rocket into orbit."
-   labels = ['science', 'technology', 'business', 'sports']
-   predictions = classifier(text, classes=labels, multi_label=False)
-   print(predictions)
-   ```
-   <details>
-    <summary>Expected Output</summary>
-    ```bash
-    [[{'label': 'technology', 'score': 0.3839840292930603}]]
-    ```
-   </details>
-
-### Question-Answering
-   ```python
-   from gliner import GLiNER
-   from gliner.multitask import GLiNERQuestionAnswerer
-
-   model_id = 'knowledgator/gliner-multitask-v1.0'
-   model = GLiNER.from_pretrained(model_id)
-   answerer = GLiNERQuestionAnswerer(model=model)
-   text = "SpaceX successfully launched a new rocket into orbit."
-   question = 'Which company launched a new rocket?'
-   predictions = answerer(text, questions=question)
-   print(predictions)
-   ```
-   <details>
-    <summary>Expected Output</summary>
-    ```bash
-    [[{'answer': 'SpaceX', 'score': 0.998126208782196}]]
-    ```
-   </details>
-
-
-### Relation Extraction
-
-   ```python
-   from gliner import GLiNER
-   from gliner.multitask import GLiNERRelationExtractor
-
-   model_id = 'knowledgator/gliner-multitask-v1.0'
-   model = GLiNER.from_pretrained(model_id)
-   relation_extractor = GLiNERRelationExtractor(model=model)
-   text = "Elon Musk founded SpaceX in 2002 to reduce space transportation costs."
-   relations = ['founded', 'owns', 'works for']
-   entities = ['person', 'company', 'year']
-   predictions = relation_extractor(text, entities=entities, relations=relations)
-   print(predictions)
-   ```
-   <details>
-    <summary>Expected Output</summary>
-    ```bash
-    [[{'source': 'Elon Musk', 'relation': 'founded', 'target': 'SpaceX', 'score': 0.9583475589752197}]]
-    ```
-   </details>
-
-
-### Open Information Extraction
-
-   ```python
-   from gliner import GLiNER
-   from gliner.multitask import GLiNEROpenExtractor
-
-   model_id = 'knowledgator/gliner-multitask-v1.0'
-   model = GLiNER.from_pretrained(model_id)
-   extractor = GLiNEROpenExtractor(model=model, prompt="Extract all companies related to space technologies")
-   text = "Elon Musk founded SpaceX in 2002 to reduce space transportation costs. Also Elon is founder of Tesla, NeuroLink and many other companies."
-   labels = ['company']
-   predictions = extractor(text, labels=labels)
-   print(predictions)
-   ```
-   <details>
-    <summary>Expected Output</summary>
-    ```bash
-    [[{'start': 72, 'end': 78, 'text': 'SpaceX', 'label': 'company', 'score': 0.9622299075126648}, {'start': 149, 'end': 154, 'text': 'Tesla', 'label': 'company', 'score': 0.9357912540435791}, {'start': 156, 'end': 165, 'text': 'NeuroLink', 'label': 'company', 'score': 0.9122058749198914}]]
-    ```
-   </details>
-
-
-### Summarization
-
-   ```python
-   from gliner import GLiNER
-   from gliner.multitask import GLiNERSummarizer
-
-   model_id = 'knowledgator/gliner-multitask-v1.0'
-   model = GLiNER.from_pretrained(model_id)
-   summarizer = GLiNERSummarizer(model=model)
-   text = "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975 to develop and sell BASIC interpreters for the Altair 8800. During his career at Microsoft, Gates held the positions of chairman, chief executive officer, president and chief software architect, while also being the largest individual shareholder until May 2014."
-   summary = summarizer(text, threshold=0.1)
-   print(summary)
-   ```
-   <details>
-    <summary>Expected Output</summary>
-    ```bash
-    ['Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975 to develop and sell BASIC interpreters for the Altair 8800. During his career at Microsoft, Gates held the positions of chairman, chief executive officer, president and chief software architect, while also being the largest individual shareholder until May 2014.']
-
-    ```
-   </details>
-
-### [More details on usage](frameworks\gliner\usage\index.md#pipelines)
 
 ## Bi-Encoder Models
 

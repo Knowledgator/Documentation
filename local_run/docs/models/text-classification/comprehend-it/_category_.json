@@ -1,0 +1,8 @@
+{
+  "label": "СomprehendIt",
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "models/text-classification/comprehend-it/index"
+  }
+}

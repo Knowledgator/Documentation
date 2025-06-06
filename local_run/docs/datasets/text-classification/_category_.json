@@ -1,0 +1,8 @@
+{
+  "label": "Text Classification",
+  "position": 1,
+  "link": {
+    "type": "doc",
+    "id": "datasets/text-classification/index"
+  }
+}

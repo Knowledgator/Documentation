@@ -1,0 +1,8 @@
+{
+  "label": "Text Classification",
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "models/text-classification/index"
+  }
+}
