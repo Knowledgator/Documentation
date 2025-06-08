@@ -51,6 +51,6 @@ for entity in entities:
 
 ## Next Steps
 
-- Check out the [Examples](../examples/index.md) for more use cases.
+- Check out the **Examples** for more use cases.
 
 Happy coding!

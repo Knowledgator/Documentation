@@ -6,7 +6,7 @@ Knowledgator offers a suite of **modular frameworks** designed to accelerate the
 
 ## Available Frameworks
 
-### [GLiNER](frameworks/gliner)
+### [GLiNER](gliner)
 A token classification framework optimized for **Named Entity Recognition** (NER).
 - Effective across text classification, QA, NER, Relation Extraction. 
 - Supports few-shot and zero-shot entity extraction  
